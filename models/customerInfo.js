@@ -3,11 +3,13 @@ const Schema = mongoose.Schema;
 const billingInfo = require('./billingInfo');
 const shippingInfo = require('./shippingInfo');
 const paymentInfo = require('./paymentInfo');
+const orderSummary = require('./order');
 
 const customerInfoSchema = new Schema({
     billingInfo: [billingInfo],
     shippingInfo: [shippingInfo],
-    paymentInfo:[paymentInfo]
+    paymentInfo:[paymentInfo],
+    order:[orderSummary]
 },{
     timestamps:true
 });
@@ -40,6 +42,13 @@ customerInfo.create({
         number: "1234123412341234",
         exp:1021,
         cvv:123
+    },
+    order:{
+        order:[{name:'kratom', type:'capsule', price:10, quanity:2}],
+        price: 45,
+        taxes:2,
+        total:47
     }
 })
+
 module.exports = customerInfo;
