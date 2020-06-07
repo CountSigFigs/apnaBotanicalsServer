@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const capsules = require('../shared/capsulesList');
 
 const capsuleSchema = new Schema({
     name:{
@@ -30,13 +31,6 @@ const capsuleSchema = new Schema({
 
 const Capsule = mongoose.model('Capsule', capsuleSchema);
 
-Capsule.create({
-    name: 'Kratom Gold',
-    type: 'Capsule',
-    image: 'assets/images/gold-c.png',
-    description: 'Calming and Soothing',
-    price: 10,
-    quanity:1
-})
+Capsule.create(capsules)
 
 module.exports = Capsule;

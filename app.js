@@ -10,7 +10,7 @@ const capsuleRouter = require('./routes/capsuleRouter');
 const powderRouter = require('./routes/powderRouter');
 const contactRouter = require('./routes/contactRouter');
 const reviewRouter = require('./routes/reviewRouter');
-
+const customerInfoRouter = require('./routes/customerInfoRouter');
 const mongoose = require('mongoose');
 
 const url = 'mongodb://localhost:27017/apnabotanicals'
@@ -42,6 +42,7 @@ app.use('/capsules', capsuleRouter);
 app.use('/powders', powderRouter);
 app.use('/contact', contactRouter);
 app.use('/reviews', reviewRouter);
+app.use('/customers', customerInfoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

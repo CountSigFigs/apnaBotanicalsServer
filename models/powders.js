@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const powderList = require('../shared/powders');
+
 const powderSchema = new Schema({
     name:{
         type: String,
@@ -30,13 +32,6 @@ const powderSchema = new Schema({
 
 const Powder = mongoose.model('Powder', powderSchema);
 
-Powder.create({
-    name: 'Kratom Gold',
-    type: 'Powder',
-    image: 'assets/images/gold-c.png',
-    description: 'Calming and Soothing',
-    price: 10,
-    quanity:1
-})
+Powder.create(powderList)
 
 module.exports = Powder;
