@@ -37,26 +37,39 @@ reviewRouter.route('/')
         res.json(response);
     })
 })
-//shift alt a
-/* reviewRouter.route('/:reviewId')
-.all((req,res,next) => {
-    res.statusCode = 200
-    res.setHeader('Content-Type', 'text/plain')
-    next();
-})
-.get((req,res) => {
-    res.end(`Will send details of the review: ${req.params.reviewId} to you`)
+reviewRouter.route('/:reviewId')
+.get((req,res, next) => {
+    Review.findById(req.params.customerId)
+    .then(review => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(review);
+    })
+    .catch(err => next(err))
 })
 .post((req,res) => {
     res.statusCode = 403;
     res.end(`POST operations not supported on /reviews/${req.params.reviewId}`)
 })
-.put((req, res) => {
-    res.statusCode = 403;
-    res.end(`Once a review has been posted you cannot go back and edit it.`)
+.put((req, res, next) => {
+    Review.findByIdAndUpdate(req.params.reviewId, {
+        $set: req.body
+    }, { new: true})
+    .then(review => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(review)
+    })
+    .catch(err => next(err))
 })
-.delete((req,res) => {
-    res.end(`Deleting review: ${req.params.reviewId}`)
-}); */
+.delete((req,res, next) => {
+    Review.findByIdAndDelete(req.params.reviewId)
+    .then(response => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(response)
+    })
+    .catch(err => next(err))
+});
 
 module.exports = reviewRouter;
