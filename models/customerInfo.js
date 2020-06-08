@@ -4,20 +4,26 @@ const billingInfo = require('./billingInfo');
 const shippingInfo = require('./shippingInfo');
 const paymentInfo = require('./paymentInfo');
 const orderSummary = require('./order');
+const userInfo = require('./userinfo');
 
 const customerInfoSchema = new Schema({
+    userInfo:[userInfo],
     billingInfo: [billingInfo],
     shippingInfo: [shippingInfo],
     paymentInfo:[paymentInfo],
-    order:[orderSummary]
+    orders:[orderSummary]
 },{
     timestamps:true
 });
 
-
 const customerInfo = mongoose.model('customerInfo', customerInfoSchema);
 //example
 customerInfo.create({
+    userInfo:{
+        name: 'brian holt',
+        username:'countsigfigs',
+        password:'murphy864'
+    },
     billingInfo: {
         firstName: "Brian",
         lastName: "Holt",
@@ -43,12 +49,19 @@ customerInfo.create({
         exp:1021,
         cvv:123
     },
-    order:{
+    orders:[{
         order:[{name:'kratom', type:'capsule', price:10, quanity:2}],
         price: 45,
         taxes:2,
         total:47
-    }
+    },{
+        order:[
+            {name: 'kratom', type: 'power', price:10, quanity:3},
+            {name:'kratom yellow', type: 'capsule', price:10, quanity:1}],
+            price: 40,
+            taxes:3,
+            total:48
+    }]
 })
 
 module.exports = customerInfo;
