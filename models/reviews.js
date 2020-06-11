@@ -19,5 +19,5 @@ const reviewSchema = new Schema({
 });
 
 const Review = mongoose.model('Review', reviewSchema);
-Review.create({title:'Awesome Products',name:'Johnny',body:'Since using ABs products, I have had less stress!'})
+//Review.create({title:'Awesome Products',name:'Johnny',body:'Since using ABs products, I have had less stress!'})
 module.exports = Review

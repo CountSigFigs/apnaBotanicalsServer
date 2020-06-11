@@ -32,6 +32,6 @@ const powderSchema = new Schema({
 
 const Powder = mongoose.model('Powder', powderSchema);
 
-Powder.create(powderList)
+//Powder.create(powderList)
 
 module.exports = Powder;

@@ -23,6 +23,6 @@ const contactSchema = new Schema({
 });
 
 const Contact = mongoose.model('Contact', contactSchema);
-Contact.create({name:'Brian', phone:86435391, email:'bharrisonholt@gmail.com', feedback:'I have question about the health risks. Please contact me.'})
+//Contact.create({name:'Brian', phone:86435391, email:'bharrisonholt@gmail.com', feedback:'I have question about the health risks. Please contact me.'})
 
 module.exports = Contact;

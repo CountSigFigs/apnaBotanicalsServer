@@ -30,7 +30,6 @@ const capsuleSchema = new Schema({
 });
 
 const Capsule = mongoose.model('Capsule', capsuleSchema);
-
-Capsule.create(capsules)
+//Capsule.create(capsules)
 
 module.exports = Capsule;
