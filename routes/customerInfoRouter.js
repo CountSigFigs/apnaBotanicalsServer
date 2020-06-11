@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const CustomerInfo = require('../models/customerInfo');
 const customerInfoRouter = express.Router();
-
+const passport = require('passport');
 customerInfoRouter.use(bodyParser.json())
 
 customerInfoRouter.route('/')
@@ -15,19 +15,6 @@ customerInfoRouter.route('/')
     })
     .catch(err => next(err))
 })
-.post((req,res,next) => {
-        CustomerInfo.create(req.body)
-        .then(customer => {
-            res.statusCode = 200
-            res.setHeader('Content-Type', 'application/json');
-            res.json(customer)
-        })
-        .catch(err => next(err))
-})
-.put((req,res) => {
-    res.status = 403
-    res.end('PUT is not supported on /customers')
-})
 .delete((req,res,next) => {
     CustomerInfo.deleteMany()
     .then(response => {
@@ -36,6 +23,33 @@ customerInfoRouter.route('/')
         res.json(response)
     })
     .catch(err => next(err))
+});
+
+customerInfoRouter.post('/signup',(req,res) => {
+    CustomerInfo.register(
+        new CustomerInfo({username:req.body.username, name:req.body.name}),
+        req.body.password,
+        err => {
+            if (err){
+                res.statusCode = 500;
+                res.setHeader('Content-Type', 'application/json');
+                res.json({err:err})
+            } else {
+                passport.authenticate('local')(req, res, () => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({sucess: true, status: 'Registration Successful'})
+                })
+            }
+        }
+    )
+})
+
+customerInfoRouter.post('/login', passport.authenticate('local'), (req, res) => {
+    console.log(req.body)
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({success: true, status: 'You are successfully logged in!'});
 });
 
 customerInfoRouter.route('/:customerId')
@@ -117,6 +131,7 @@ customerInfoRouter.route('/:customerId/orders')
     res.statusCode = 403;
     res.end(`Delete options not supported on /customers/${req.params.customerId}/orders`)
 });
+
 
 module.exports = customerInfoRouter;
 

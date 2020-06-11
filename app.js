@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const passport = require('passport');
+const authenticate = require('./authenticate');
 var indexRouter = require('./routes/index');
 const capsuleRouter = require('./routes/capsuleRouter');
 const powderRouter = require('./routes/powderRouter');
@@ -34,8 +35,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/', indexRouter);
+app.use('/customers', customerInfoRouter);
+
 app.use('/capsules', capsuleRouter);
 app.use('/powders', powderRouter);
 app.use('/contact', contactRouter);

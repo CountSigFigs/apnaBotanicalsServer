@@ -5,9 +5,13 @@ const shippingInfo = require('./shippingInfo');
 const paymentInfo = require('./paymentInfo');
 const orderSummary = require('./order');
 const userInfo = require('./userinfo');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const customerInfoSchema = new Schema({
-    userInfo:[userInfo],
+    name:{
+        type:String,
+        required:true
+    },
     billingInfo: [billingInfo],
     shippingInfo: [shippingInfo],
     paymentInfo:[paymentInfo],
@@ -16,7 +20,10 @@ const customerInfoSchema = new Schema({
     timestamps:true
 });
 
+customerInfoSchema.plugin(passportLocalMongoose);
+
 const customerInfo = mongoose.model('customerInfo', customerInfoSchema);
+
 //example
 customerInfo.create({
     userInfo:{
