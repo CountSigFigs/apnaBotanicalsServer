@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const authenticate = require('../authenticate')
 const Review = require('../models/reviews')
 const reviewRouter = express.Router();
-
 reviewRouter.use(bodyParser.json())
 
 reviewRouter.route('/')
@@ -15,7 +15,7 @@ reviewRouter.route('/')
     })
     .catch(err => next(err))
 })
-.post((req, res, next) => {
+.post(authenticate.verifyUser,(req, res, next) => {
     Review.create(req.body)
     .then(review => {
         console.log('Review created ', review);
@@ -52,7 +52,7 @@ reviewRouter.route('/:reviewId')
     res.statusCode = 403;
     res.end(`POST operations not supported on /reviews/${req.params.reviewId}`)
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser,(req, res, next) => {
     Review.findByIdAndUpdate(req.params.reviewId, {
         $set: req.body
     }, { new: true})
@@ -63,7 +63,7 @@ reviewRouter.route('/:reviewId')
     })
     .catch(err => next(err))
 })
-.delete((req,res, next) => {
+.delete(authenticate.verifyUser,(req,res, next) => {
     Review.findByIdAndDelete(req.params.reviewId)
     .then(response => {
         res.statusCode = 200;

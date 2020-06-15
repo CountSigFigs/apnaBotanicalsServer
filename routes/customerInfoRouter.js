@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const CustomerInfo = require('../models/customerInfo');
 const customerInfoRouter = express.Router();
 const passport = require('passport');
+const authenticate = require('../authenticate');
+
 customerInfoRouter.use(bodyParser.json())
 
 customerInfoRouter.route('/')
@@ -46,14 +48,14 @@ customerInfoRouter.post('/signup',(req,res) => {
 })
 
 customerInfoRouter.post('/login', passport.authenticate('local'), (req, res) => {
-    console.log(req.body)
+    const token = authenticate.getToken({_id: req.user._id});
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.json({success: true, status: 'You are successfully logged in!'});
+    res.json({success: true, token:token, status: 'You are successfully logged in!'});
 });
 
 customerInfoRouter.route('/:customerId')
-.get((req,res, next) => {
+.get(authenticate.verifyUser,(req,res, next) => {
     CustomerInfo.findById(req.params.customerId)
     .then(customerInfo => {
         res.statusCode = 200;
@@ -66,7 +68,7 @@ customerInfoRouter.route('/:customerId')
     res.statusCode = 403;
     res.end(`POST operations not supported on /customers/${req.params.customerId}`)
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser,(req, res, next) => {
     CustomerInfo.findByIdAndUpdate(req.params.customerId, {
         $set: req.body
     }, { new: true})
@@ -77,7 +79,7 @@ customerInfoRouter.route('/:customerId')
     })
     .catch(err => next(err))
 })
-.delete((req,res, next) => {
+.delete(authenticate.verifyUser,(req,res, next) => {
     CustomerInfo.findByIdAndDelete(req.params.customerId)
     .then(response => {
         res.statusCode = 200;
@@ -88,7 +90,7 @@ customerInfoRouter.route('/:customerId')
 });
 
 customerInfoRouter.route('/:customerId/orders')
-.get((req, res, next) => {
+.get(authenticate.verifyUser,(req, res, next) => {
     CustomerInfo.findById(req.params.customerId)
     .then(customer => {
         if (customer){
@@ -103,7 +105,7 @@ customerInfoRouter.route('/:customerId/orders')
     })
     .catch(err => next(err));
 })
-.post((req, res, next) => {
+.post(authenticate.verifyUser,(req, res, next) => {
     CustomerInfo.findById(req.params.customerId)
     .then(customer => {
         if (customer){
@@ -131,6 +133,19 @@ customerInfoRouter.route('/:customerId/orders')
     res.statusCode = 403;
     res.end(`Delete options not supported on /customers/${req.params.customerId}/orders`)
 });
+
+customerInfoRouter.route('/createdata')
+.post((req,res,next) => {
+    CustomerInfo.create(
+
+    )
+    .then(customer => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(customer)
+    })
+    .catch(err => next(err))
+})
 
 
 module.exports = customerInfoRouter;

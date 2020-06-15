@@ -12,6 +12,7 @@ const contactRouter = require('./routes/contactRouter');
 const reviewRouter = require('./routes/reviewRouter');
 const customerInfoRouter = require('./routes/customerInfoRouter');
 const mongoose = require('mongoose');
+const config = require('./config');
 
 const url = 'mongodb://localhost:27017/apnabotanicals'
 const connect = mongoose.connect(url, {
