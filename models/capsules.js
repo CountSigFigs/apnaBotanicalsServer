@@ -26,9 +26,9 @@ const capsuleSchema = new Schema({
         type: Number
     }
 },{
-    collection: 'Inventorys'
+    collection: 'inventory'
 });
 
-const Capsule = mongoose.model('Inventorys', capsuleSchema);
+const Capsule = mongoose.model('capusles', capsuleSchema);
 
 module.exports = Capsule;

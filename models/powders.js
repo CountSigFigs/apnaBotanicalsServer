@@ -26,11 +26,9 @@ const powderSchema = new Schema({
     quanity:{
         type: Number
     }
-},{
-    timestamps:true
 });
 
-const Powder = mongoose.model('Powder', powderSchema);
+const Powder = mongoose.model('inventory', powderSchema);
 
 //Powder.create(powderList)
 

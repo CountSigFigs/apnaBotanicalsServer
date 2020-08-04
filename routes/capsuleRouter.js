@@ -8,7 +8,7 @@ capsuleRouter.use(bodyParser.json())
 
 capsuleRouter.route('/')
 .get((req,res,next) => {
-    Capsule.find()
+    Capsule.find({type: 'Capsule'})
     .then(capsules => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');

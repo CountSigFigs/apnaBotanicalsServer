@@ -2,12 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Powder = require('../models/powders');
 const powderRouter = express.Router();
+const Capsule = require('../models/capsules');
 
 powderRouter.use(bodyParser.json())
 
 powderRouter.route('/')
 .get((req,res,next) => {
-    Powder.find()
+    Capsule.find({type:'Powder'})
     .then(powders => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
