@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const capsules = require('../shared/capsulesList');
 
 const capsuleSchema = new Schema({
     name:{
@@ -20,12 +21,14 @@ const capsuleSchema = new Schema({
     },
     price:{
         type: Number
+    },
+    quanity:{
+        type: Number
     }
 },{
-    collection: 'inventory'
+    collection: 'Inventorys'
 });
 
-const Capsule = mongoose.model('Inventory', capsuleSchema);
-//Capsule.create(capsules)
+const Capsule = mongoose.model('Inventorys', capsuleSchema);
 
 module.exports = Capsule;
