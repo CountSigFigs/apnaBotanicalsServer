@@ -15,7 +15,7 @@ const mongoose = require('mongoose');
 const config = require('./config');
 const link = require('./url');
 
-const url = "mongodb+srv://dbUser:goodkarma864'@cluster0.fxow3.azure.mongodb.net/ApnaBotanicals?retryWrites=true&w=majority"
+const url = link;
 
 const connect = mongoose.connect(url, {
   useCreateIndex:true,
